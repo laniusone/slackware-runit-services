@@ -1,0 +1,6 @@
+#!/bin/sh 
+
+[ -f /etc/conf.d/acpid ] && . /etc/conf.d/acpid
+
+exec 2>&1
+exec acpid -f $ACPID_ARGS

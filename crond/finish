@@ -1,0 +1,4 @@
+#!/bin/sh
+
+echo "Stopping crond."
+/usr/bin/pkill --ns $$ --euid root -f "^/usr/sbin/crond" 2> /dev/null

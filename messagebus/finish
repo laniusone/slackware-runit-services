@@ -1,0 +1,10 @@
+#!/bin/sh
+PIDFILE=/var/run/dbus/dbus.pid
+if [ -e "$PIDFILE" ]; then
+  echo "Stopping system message bus..."
+  pid=$(cat $PIDFILE)
+  kill $pid 1> /dev/null 2> /dev/null
+  # Just in case:
+  killall dbus-daemon 1> /dev/null 2> /dev/null
+  rm -f $PIDFILE
+fi

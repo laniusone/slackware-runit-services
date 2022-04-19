@@ -1,0 +1,8 @@
+#!/bin/sh
+
+exec 2>&1
+echo -n "Shutting down pcscd: "
+pkill pcscd
+rm -f $PIDFILE 1>/dev/null 2>/dev/null
+echo
+

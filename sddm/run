@@ -1,0 +1,7 @@
+#!/bin/sh
+
+sv check elogind >/dev/null || exit 1
+
+sleep 2
+exec 2>&1
+exec sddm -nodaemon

@@ -1,0 +1,23 @@
+#!/bin/bash
+
+sv check messagebus >/dev/null || exit 1
+
+if [ -x /lib64/elogind/elogind ]; then
+  if [ ! -d /run/user ]; then
+    mkdir -p /run/user
+  fi
+  if [ ! -d /run/systemd ]; then
+    mkdir -p /run/elogind /sys/fs/cgroup/elogind
+    ( cd /run; rm -rf systemd; ln -sf elogind systemd; )
+    ( cd /sys/fs/cgroup; rm -rf systemd; ln -sf elogind systemd; )
+  fi
+  if pgrep -l -F /run/elogind.pid 2>/dev/null | grep -q elogind; then
+    echo "Elogind is already running"
+    exec chpst -b elogind pause
+  else
+    echo -n "Starting elogind:  "
+    rm -f /run/elogind.pid
+    exec /lib64/elogind/elogind
+  fi
+fi
+

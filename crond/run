@@ -1,0 +1,17 @@
+#!/bin/sh
+# /etc/rc.d/rc.crond - start/stop the cron daemon
+
+# To change the default options, edit /etc/default/crond.
+if [ -r /etc/default/crond ]; then
+  . /etc/default/crond
+fi
+
+if ! /usr/bin/pgrep --ns $$ --euid root -f "^/usr/sbin/crond" 1> /dev/null 2> /dev/null ; then
+  echo "Starting crond:  /usr/sbin/crond $CROND_OPTS"
+  mkdir -p /run/cron
+  exec 2>&1
+  exec /usr/sbin/crond $CROND_OPTS -f
+else
+  exec chpst -b crond pause
+fi
+

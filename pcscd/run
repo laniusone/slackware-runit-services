@@ -1,0 +1,17 @@
+#!/bin/sh
+
+exec 2>&1
+
+[ ! -x /usr/sbin/pcscd ] && exit 99
+[ ! -f /etc/sysconfig/pcscd ] && exit 99
+
+# Source the configuration file:
+source /etc/sysconfig/pcscd
+
+if [ -e "$PIDFILE" ]; then
+  echo -n "PC/SC-lite daemon (pcscd) already started!"
+  exec chpst -b pcscd pause
+else
+  echo -n "Starting pcscd: "
+  exec /usr/sbin/pcscd $PCSCD_OPTS -f
+fi

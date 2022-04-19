@@ -1,0 +1,12 @@
+#!/bin/sh
+exec 2>&1
+
+PIDFILE=/var/run/dbus/dbus.pid
+
+mkdir -p $(dirname $PIDFILE)
+if ! ps -u messagebus -c | grep -wq dbus-daemon; then
+  rm -f $(dirname $PIDFILE)/*
+fi
+echo "Starting system message bus:  /usr/bin/dbus-uuidgen --ensure ; /usr/bin/dbus-daemon --system --nofork"
+/usr/bin/dbus-uuidgen --ensure
+exec /usr/bin/dbus-daemon --system --nofork

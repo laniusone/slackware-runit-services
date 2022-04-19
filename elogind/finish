@@ -1,0 +1,10 @@
+#!/bin/bash
+
+if pgrep -l -F /run/elogind.pid 2>/dev/null | grep -q elogind; then
+  echo -n "Stopping elogind:  "
+  pkill -F /run/elogind.pid 2>/dev/null
+  echo "DONE"
+else
+  echo "Elogind is not running"
+fi
+

@@ -1,0 +1,10 @@
+#!/bin/sh
+exec 2>&1
+#sv check inet1 > /dev/null || exit 1
+sv check messagebus > /dev/null || exit 1
+prefix=/usr
+exec_prefix=/usr
+sbindir=${exec_prefix}/sbin
+NETWORKMANAGER_BIN=${sbindir}/NetworkManager
+export XDG_CACHE_HOME=/root/.cache 
+exec $NETWORKMANAGER_BIN -n
